@@ -5,7 +5,7 @@
 
 # Example
 ```
-"Hello, how are you?" // push string to stack
+"Hello, how are you?\n" // push string to stack
 cout // pop string from stack, write it to console output
 ```
 
