@@ -1,13 +1,17 @@
-<img width="150px" src="./media/moon.png"/>
+<img width="200px" src="./media/moon.png" align="right"/>
 
 ## The Moon Programming Language
 **Moon** is a simple dynamically-typed stack-oriented programming language. Something I created for fun and to learn how stack-oriented programming language works.
+
+<br/>
 
 ## Example
 ```
 "Hello, how are you?" // push string to stack
 cout // pop string from stack, write it to console output
 ```
+
+<br/>
 
 ## F.A.Q (Frequently Asked Questions (not really))
 #### Why is the compiler written in C++?
