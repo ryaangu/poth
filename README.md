@@ -1,24 +1,21 @@
 <img width="200px" src="./media/moon.png" align="right"/>
 
 ## The Moon Programming Language
-**Moon** is a simple dynamically-typed stack-oriented programming language. Something I created for fun and to learn how stack-oriented programming language works.
+**Moon** is a simple dynamically-typed stack-oriented programming language. It's different from the other stack-oriented programming language, it outputs an optimized executable instead of interpreting the input code.
 
 <br/>
 
 ## Example
 ```
-"Hello, how are you?\n" // push string to stack
-cout // pop string from stack, write it to console output
+"hello!" // this will push the string to stack
+. // this will pop the string from stack and write it to stdout
 ```
 
 <br/>
 
 ## F.A.Q (Frequently Asked Questions (not really))
-#### Why is the compiler written in C++?
-> The compiler is written in C++ because templates, no need to typedef all structs and a few other stuff. It makes things faster to write and I don't really like writing hash maps using C macros.
+#### Why is this compiler written in C++?
+> This compiler is written in C++ because it's a nice language with templates and I'm very comfortable with it.
 
 #### Why the name 'Moon'?
-> Well, I was searching for random words, found 'Orbit' but didn't really like it much, so I thought of 'Moon' and liked it. There's probably already a programming language called 'Moon', but who cares?
-
-#### What are your plans for the language?
-> My plan is to have many different backends (like C, JavaScript) and make them very fast at runtime, so it doesn't even look like the program was written in a stack-oriented programming language.
+> It's just a random word that I thought while creating this repository, nothing very deep.
