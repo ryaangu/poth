@@ -1,7 +1,7 @@
 <img width="200px" src="./media/poliwrath.gif" align="right"/>
 
 ## The Poth Programming Language
-**Poth** is a simple dynamically-typed stack-oriented programming language. It's different from the other stack-oriented programming language, it outputs an optimized executable instead of interpreting the input code.
+**Poth** is a simple dynamically-typed stack-oriented programming language. It's different from the other stack-oriented programming languages, it outputs an optimized executable instead of interpreting the input code.
 
 <br/>
 

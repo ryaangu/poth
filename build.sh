@@ -1,1 +1,1 @@
-g++ -I. compiler/*.cpp -o out/moonc
+./ldc2 compiler/*.d 
