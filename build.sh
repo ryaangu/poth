@@ -1,1 +1,1 @@
-./ldc2 compiler/*.d 
+./ldc2 compiler/*.d compiler/*/*.d
