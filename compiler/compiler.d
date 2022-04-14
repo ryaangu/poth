@@ -1,4 +1,4 @@
-module moon.compiler;
+module compiler.compiler;
 
 struct Compiler
 {   

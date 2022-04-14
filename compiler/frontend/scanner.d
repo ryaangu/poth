@@ -1,4 +1,4 @@
-module moon.scanner;
+module compiler.frontend.scanner;
 
 enum TokenKind
 {

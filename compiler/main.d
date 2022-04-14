@@ -1,7 +1,7 @@
-module moon.main;
+module compiler.main;
 
 import std.stdio;
-import moon.scanner;
+import compiler.frontend.scanner;
 
 void main()
 {
