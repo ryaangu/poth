@@ -1,4 +1,4 @@
-<img width="200px" src="./media/moon.png" align="right"/>
+<img width="200px" src="./media/poliwrath.gif" align="right"/>
 
 ## The Moon Programming Language
 **Moon** is a simple dynamically-typed stack-oriented programming language. It's different from the other stack-oriented programming language, it outputs an optimized executable instead of interpreting the input code.
