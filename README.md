@@ -18,4 +18,4 @@
 > This compiler is written in D because it's a "better" C with templates, modules and stuff that makes it easier to use and then self host later.
 
 #### Why the name 'Poth'?
-> It's the two first letters and two final letters of 'Poliwrath', my favorite Pokémon since I was born and I don't knwo why lol.
+> It's the two first letters and two final letters of 'Poliwrath', my favorite Pokémon since I was a little kid and I don't know why lol.
