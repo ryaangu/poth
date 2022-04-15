@@ -6,17 +6,19 @@ import compiler.ir.ir_constant;
 import compiler.ir.ir_builder;
 import compiler.ir.ir_label;
 
-import std.conv;
+import std.algorithm;
 import std.stdio;
+import std.file;
+import std.conv;
 
 struct Emitter
 {
-    Scanner scanner = Scanner("1 2 3 4 5 ++++.\0");
+    Scanner scanner;
 
     IR_Builder builder;
     IR_Label *current_label;
     
-    int stack_count = 0;
+    uint[] stack;
 
     void advance()
     {
@@ -50,16 +52,20 @@ struct Emitter
 
     void push(IR_Constant constant)
     {
-        ++stack_count;
-        current_label.assign(current_label.add_register(), constant);
+        IR_Constant register = current_label.add_register();
+        current_label.assign(register, constant);
+        stack ~= register.as_register;
     }
 
     IR_Constant pop()
     {
-        if (stack_count == 0)
+        if (stack.length == 0)
             writeln("tried to pop nothing.");
 
-        return IR_Constant(current_label.register_index - (stack_count--));
+        uint register = stack[$ - 1];
+        --stack.length;
+
+        return IR_Constant(register);
     }
 
     void emit()
@@ -85,8 +91,9 @@ struct Emitter
                 IR_Constant a = pop();
                 IR_Constant b = pop();
 
-                ++stack_count;
-                current_label.add(current_label.add_register(), a, b);
+                IR_Constant register = current_label.add_register();
+                stack ~= register.as_register;
+                current_label.add(register, a, b);
                 break;
             }
 
@@ -103,6 +110,7 @@ struct Emitter
 
     void start()
     {
+        scanner = Scanner(readText("tests/test.mn") ~ "\0");
         writeln("-- INPUT --\n", scanner.source, '\n');
         current_label = builder.add_label("main");
         advance();
