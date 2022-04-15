@@ -5,12 +5,12 @@ import std.stdio;
 struct IRLabel
 {
     IRInstruction[] instructions;
-    IRConstant[] variables;
+    int variable_count = 0;
 
     IRConstant variable()
     {
-        variables ~= IRConstant();
-        return IRConstant(cast(int)variables.length - 1);
+        ++variable_count;
+        return IRConstant(variable_count - 1);
     }
 
     void set(IRConstant a, IRConstant b)

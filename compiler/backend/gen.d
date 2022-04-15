@@ -8,7 +8,7 @@ import std.stdio;
 
 struct Generator
 {
-    Scanner scanner = Scanner("1.1 2.2 +. 3.3.\0");
+    Scanner scanner = Scanner("1 2 3 + + .\0");
 
     IRLabel label;
     
@@ -56,7 +56,7 @@ struct Generator
         if ((stack_count--) == 0)
             writeln("tried to pop nothing.");
 
-        return IRConstant((cast(int)label.variables.length) - (stack_count + 1));
+        return IRConstant(label.variable_count - (stack_count + 1));
     }
 
     void generate()
@@ -65,6 +65,7 @@ struct Generator
 
         switch (scanner.previous.kind)
         {
+            case TokenKind.Integer:
             case TokenKind.Float:
             {
                 push(IRConstant(to!(double)(scanner.previous.content)));
