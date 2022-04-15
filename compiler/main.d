@@ -1,10 +1,19 @@
 module compiler.main;
 
 import std.stdio;
-import compiler.backend.gen;
+
+import compiler.backend.emitter;
+import compiler.interpreter;
+
+import compiler.ir.ir_constant;
+import compiler.ir.ir_builder;
+import compiler.ir.ir_label;
 
 void main()
 {
-    Generator gen;
+    Emitter gen;
     gen.start();
+
+    gen.builder.dump();
+    interpret(*gen.current_label);
 }

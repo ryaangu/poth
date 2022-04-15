@@ -1,16 +1,20 @@
-module compiler.backend.gen;
+module compiler.backend.emitter;
 
 import compiler.frontend.scanner;
-import compiler.backend.ir;
+
+import compiler.ir.ir_constant;
+import compiler.ir.ir_builder;
+import compiler.ir.ir_label;
 
 import std.conv;
 import std.stdio;
 
-struct Generator
+struct Emitter
 {
-    Scanner scanner = Scanner("1 2 3 + + .\0");
+    Scanner scanner = Scanner("1 2 3 4 5 ++++.\0");
 
-    IRLabel label;
+    IR_Builder builder;
+    IR_Label *current_label;
     
     int stack_count = 0;
 
@@ -44,48 +48,51 @@ struct Generator
         // error
     }
 
-    IRConstant push(IRConstant constant)
+    void push(IR_Constant constant)
     {
         ++stack_count;
-        label.set(label.variable(), constant);
-        return constant;
+        current_label.assign(current_label.add_register(), constant);
     }
 
-    IRConstant pop()
+    IR_Constant pop()
     {
-        if ((stack_count--) == 0)
+        if (stack_count == 0)
             writeln("tried to pop nothing.");
 
-        return IRConstant(label.variable_count - (stack_count + 1));
+        return IR_Constant(current_label.register_index - (stack_count--));
     }
 
-    void generate()
+    void emit()
     {
         advance();
 
         switch (scanner.previous.kind)
         {
             case TokenKind.Integer:
+            {
+                push(IR_Constant(to!(long)(scanner.previous.content)));
+                break;
+            }
+
             case TokenKind.Float:
             {
-                push(IRConstant(to!(double)(scanner.previous.content)));
+                push(IR_Constant(to!(double)(scanner.previous.content)));
                 break;
             }
 
             case TokenKind.Plus:
             {
-                IRConstant b = pop();
-                IRConstant a = pop();
+                IR_Constant a = pop();
+                IR_Constant b = pop();
 
                 ++stack_count;
-                label.add(label.variable(), a, b);
+                current_label.add(current_label.add_register(), a, b);
                 break;
             }
 
             case TokenKind.Dot:
             {
-                IRConstant a = pop();
-                label.cout(a);
+                current_label.cout(pop());
                 break;
             }
 
@@ -96,9 +103,11 @@ struct Generator
 
     void start()
     {
+        writeln("-- INPUT --\n", scanner.source, '\n');
+        current_label = builder.add_label("main");
         advance();
 
         while (!match(TokenKind.End))
-            generate();
+            emit();
     }
 }
