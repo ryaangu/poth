@@ -1,12 +1,10 @@
 module compiler.main;
 
 import std.stdio;
-import compiler.frontend.scanner;
+import compiler.backend.gen;
 
 void main()
 {
-    Scanner scanner = Scanner("1.4 1.3\0");
-    writeln(scanner.scan());
-    writeln(scanner.scan());
-    writeln(scanner.scan());
+    Generator gen;
+    gen.start();
 }
