@@ -1,2 +1,9 @@
-68 1 1 1
-+ . + .
+get_age(-> string)
+{
+    "hello"
+}
+
+main(-> i32)
+{
+    get_age .
+}

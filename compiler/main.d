@@ -1,19 +1,23 @@
 module compiler.main;
 
 import std.stdio;
+import std.file;
 
-import compiler.backend.emitter;
-import compiler.interpreter;
+import compiler.frontend.parser;
+import compiler.frontend.node;
 
-import compiler.ir.ir_constant;
-import compiler.ir.ir_builder;
-import compiler.ir.ir_label;
+import compiler.config;
+import compiler.input;
 
 void main()
 {
-    Emitter gen;
-    gen.start();
+    g_inputs ~= Input("tests/test.mn", readText("tests/test.mn") ~ "\0");
 
-    gen.builder.dump();
-    interpret(*gen.current_label);
+    Parser p;
+    p.start();
+
+    foreach (node; g_inputs[0].nodes)
+        node.emit(g_inputs[0]);
+
+    g_inputs[0].ir.dump();
 }

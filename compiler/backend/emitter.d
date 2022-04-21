@@ -1,121 +1,135 @@
-module compiler.backend.emitter;
+// module compiler.backend.emitter;
 
-import compiler.frontend.scanner;
+// import compiler.config;
 
-import compiler.ir.ir_constant;
-import compiler.ir.ir_builder;
-import compiler.ir.ir_label;
+// import compiler.frontend.node;
 
-import std.algorithm;
-import std.stdio;
-import std.file;
-import std.conv;
+// import compiler.ir.ir_constant;
+// import compiler.ir.ir_builder;
+// import compiler.ir.ir_label;
 
-struct Emitter
-{
-    Scanner scanner;
+// import std.algorithm;
+// import std.stdio;
+// import std.file;
+// import std.conv;
 
-    IR_Builder builder;
-    IR_Label *current_label;
+// struct Emitter
+// {
+//     Scanner scanner;
+
+//     IR_Builder builder;
+//     IR_Label *current_label;
     
-    uint[] stack;
+//     uint[] stack;
 
-    void advance()
-    {
-        for (;;)
-        {
-            if (scanner.scan() != TokenKind.Error)
-                break;
+//     void push(IR_Constant constant)
+//     {
+//         IR_Constant register = current_label.add_register();
+//         current_label.assign(register, constant);
+//         stack ~= register.as_register;
+//     }
 
-            // error
-        }
-    }
+//     IR_Constant pop()
+//     {
+//         if (stack.length == 0)
+//             writeln("tried to pop nothing.");
 
-    bool match(TokenKind kind)
-    {
-        if (scanner.current.kind == kind)
-        {
-            advance();
-            return true;
-        }
+//         uint register = stack[$ - 1];
+//         --stack.length;
 
-        return false;
-    }
+//         return IR_Constant(register);
+//     }
 
-    void consume(TokenKind kind, string message)
-    {
-        if (match(kind))
-            return;
+//     void forward_declare()
+//     {
+//         advance();
 
-        // error
-    }
+//         switch (scanner.previous.kind)
+//         {
+//             case TokenKind.Identifier:
+//             {
+//                 string name = scanner.previous.content;
 
-    void push(IR_Constant constant)
-    {
-        IR_Constant register = current_label.add_register();
-        current_label.assign(register, constant);
-        stack ~= register.as_register;
-    }
+//                 if (match(TokenKind.Colon))
+//                 {
+//                     if (name in builder.labels)
+//                     {
+//                         // error
+//                         writeln("HUH!");
+//                     }
 
-    IR_Constant pop()
-    {
-        if (stack.length == 0)
-            writeln("tried to pop nothing.");
+//                     current_label = builder.add_label(name);
+//                 }
 
-        uint register = stack[$ - 1];
-        --stack.length;
+//                 break;    
+//             }
 
-        return IR_Constant(register);
-    }
+//             default:
+//                 break;
+//         }
+//     }
 
-    void emit()
-    {
-        advance();
+//     void emit()
+//     {
+//         advance();
 
-        switch (scanner.previous.kind)
-        {
-            case TokenKind.Integer:
-            {
-                push(IR_Constant(to!(long)(scanner.previous.content)));
-                break;
-            }
+//         switch (scanner.previous.kind)
+//         {
+//             case TokenKind.Identifier:
+//             {
+//                 string name = scanner.previous.content;
 
-            case TokenKind.Float:
-            {
-                push(IR_Constant(to!(double)(scanner.previous.content)));
-                break;
-            }
+//                 if (match(TokenKind.Colon))
+//                     current_label = &(builder.labels[name]);
+//                 else
+//                     writeln("calls not supported yet.");
+//                 break;    
+//             }
 
-            case TokenKind.Plus:
-            {
-                IR_Constant a = pop();
-                IR_Constant b = pop();
+//             case TokenKind.Integer:
+//             {
+//                 push(IR_Constant(to!(long)(scanner.previous.content)));
+//                 break;
+//             }
 
-                IR_Constant register = current_label.add_register();
-                stack ~= register.as_register;
-                current_label.add(register, a, b);
-                break;
-            }
+//             case TokenKind.Float:
+//             {
+//                 push(IR_Constant(to!(double)(scanner.previous.content)));
+//                 break;
+//             }
 
-            case TokenKind.Dot:
-            {
-                current_label.cout(pop());
-                break;
-            }
+//             case TokenKind.Plus:
+//             {
+//                 IR_Constant a = pop();
+//                 IR_Constant b = pop();
 
-            default:
-                break;
-        }
-    }
+//                 IR_Constant register = current_label.add_register();
+//                 stack ~= register.as_register;
+//                 current_label.add(register, a, b);
+//                 break;
+//             }
 
-    void start()
-    {
-        scanner = Scanner(readText("tests/test.mn") ~ "\0");
-        writeln("-- INPUT --\n", scanner.source, '\n');
-        current_label = builder.add_label("main");
-        advance();
+//             case TokenKind.Dot:
+//             {
+//                 current_label.cout(pop());
+//                 break;
+//             }
 
-        while (!match(TokenKind.End))
-            emit();
-    }
-}
+//             default:
+//                 break;
+//         }
+//     }
+
+//     void reset()
+//     {
+//         scanner = Scanner(readText("tests/test.mn") ~ "\0");
+//         advance();
+//     }
+
+//     void start()
+//     {
+//         reset();
+//         writeln("-- INPUT --\n", scanner.source, '\n');
+//         current_label = builder.add_label("main");
+//     }
+// }

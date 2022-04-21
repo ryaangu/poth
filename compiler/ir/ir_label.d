@@ -2,11 +2,14 @@ module compiler.ir.ir_label;
 
 import compiler.ir.ir_instruction;
 import compiler.ir.ir_constant;
+import compiler.ir.ir_type;
+
 import compiler.config;
 
 struct IR_Label
 {
     IR_Instruction[] instructions;
+    IR_Type type;
     uint register_index;
 
     IR_Constant add_register()

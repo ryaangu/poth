@@ -1,3 +1,6 @@
 module compiler.config;
 
-__gshared bool has_fatal_errors = false;
+import compiler.input;
+
+__gshared bool g_has_fatal_errors = false;
+__gshared Input[] g_inputs;

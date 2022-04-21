@@ -1,27 +1,6 @@
 module compiler.frontend.scanner;
 
-enum TokenKind
-{
-    End,
-    Error,
-
-    Identifier,
-    Integer,
-    Float,
-    String,
-
-    Plus,
-
-    Dot,
-}
-
-struct Token
-{
-    TokenKind kind;
-    string    content;
-    uint      line;
-    uint      column;    
-}
+import compiler.frontend.token;
 
 struct Scanner
 {
@@ -36,6 +15,8 @@ struct Scanner
     uint start;
     uint end;
 
+    TokenKind[string] keywords;
+
     this(string _source)
     {
         source   = _source;
@@ -43,6 +24,8 @@ struct Scanner
         column   = 1;
         start    = 0;
         end      = 0;
+
+        keywords["function"] = TokenKind.Function;
     }
 
     char advance()
@@ -132,6 +115,13 @@ struct Scanner
         return (character >= '0' && character <= '9');
     }
 
+    bool is_letter_or_underscore(char character)
+    {
+        return (character >= 'A' && character <= 'Z') ||
+               (character >= 'a' && character <= 'z') ||
+               (character == '_');
+    }
+
     TokenKind make_number_token()
     {
         while (is_number(source[end]))
@@ -146,6 +136,31 @@ struct Scanner
         }
 
         return make_token(TokenKind.Integer);
+    }
+
+    TokenKind make_identifier_token()
+    {
+        while (is_letter_or_underscore(source[end]) || is_number(source[end]))
+            advance();
+
+        string name = source[start .. end];
+
+        if (name in keywords)
+            return make_token(keywords[name]);
+
+        return make_token(TokenKind.Identifier);
+    }
+
+    TokenKind make_string_token()
+    {
+        while (source[end] != '"' && source[end] != '\0')
+            advance();
+
+        if (source[end] == '\0')
+            return make_token("unterminated string.");
+
+        advance();
+        return make_token(TokenKind.String);
     }
 
     TokenKind scan()
@@ -163,6 +178,9 @@ struct Scanner
         if (is_number(character))
             return make_number_token();
 
+        if (is_letter_or_underscore(character))
+            return make_identifier_token();
+
         switch (character) 
         {
             case '+':
@@ -170,6 +188,32 @@ struct Scanner
 
             case '.':
                 return make_token(TokenKind.Dot);
+
+            case '(':
+                return make_token(TokenKind.LeftParenthesis);
+
+            case ')':
+                return make_token(TokenKind.RightParenthesis);
+
+            case '{':
+                return make_token(TokenKind.LeftBrace);
+
+            case '}':
+                return make_token(TokenKind.RightBrace);
+
+            case ',':
+                return make_token(TokenKind.Comma);
+
+            case '-':
+            {
+                if (match('>'))
+                    return make_token(TokenKind.Arrow);
+
+                return make_token("expected '->'.");
+            }
+
+            case '"':
+                return make_string_token();
 
             default:
                 return make_token("unexpected character.");
