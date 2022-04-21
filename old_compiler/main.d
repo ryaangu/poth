@@ -11,7 +11,7 @@ import compiler.input;
 
 void main()
 {
-    g_inputs ~= Input("tests/test.mn", readText("tests/test.mn") ~ "\0");
+    g_inputs ~= Input("tests/test.pth", readText("tests/test.pth") ~ "\0");
 
     Parser p;
     p.start();
