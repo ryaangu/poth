@@ -1,2 +1,5 @@
 # Executables
 poth
+
+# Dub Cache
+.dub
