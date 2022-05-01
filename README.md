@@ -7,9 +7,9 @@
 
 ## Example
 ```
-function main() -> i32
+main(-> Number)
 {
-    "hello" println
+    "Hello!" .
     0
 }
 ```
