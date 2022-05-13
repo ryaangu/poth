@@ -1,9 +1,7 @@
-get_age(-> string)
+add(Number, Number -> Number)
 {
-    "hello"
+    +
 }
 
-main(-> i32)
-{
-    get_age .
-}
+
+// SOURCE -> AST -> MIR -> OPT -> LIR -> REGALLOC -> TARGET

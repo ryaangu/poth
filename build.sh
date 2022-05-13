@@ -1,1 +1,0 @@
-gdc compiler/*.d compiler/*/*.d -o out/poth

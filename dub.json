@@ -1,0 +1,10 @@
+{
+	"authors": [
+		"Ryan"
+	],
+	"copyright": "Copyright © 2022, Ryan",
+	"dependencies": {},
+	"description": "A compiler for the Poth programming language.",
+	"license": "Zlib",
+	"name": "poth"
+}
