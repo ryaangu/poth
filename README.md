@@ -7,11 +7,9 @@
 
 ## Example
 ```
-main(-> Number)
-{
-    "Hello!" .
-    0
-}
+(function main (-> number)
+    (push 0)
+    (ret))
 ```
 
 <br/>

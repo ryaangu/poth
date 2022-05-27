@@ -1,7 +1,3 @@
-add(Number, Number -> Number)
-{
-    +
-}
-
-
-// SOURCE -> AST -> MIR -> OPT -> LIR -> REGALLOC -> TARGET
+(function main (-> number)
+    (push 0)
+    (ret))
